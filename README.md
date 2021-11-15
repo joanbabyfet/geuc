@@ -1,5 +1,5 @@
 ## About
-基于CMS搭建的禹臣实业eProduct产品系统，后台使用layui前端框架实现，结合mysql与MongoDB数据库  
+基于CMS搭建的禹臣实业eProduct产品系统，后台使用layui前端框架实现，提供店铺管理、商品管理、商品分类等模块  
 技术要点：laravel 框架，无限级商品分类，lightbox 相册应用，redis，mongodb 存储日志
 
 ## Feature

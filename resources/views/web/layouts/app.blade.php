@@ -8,7 +8,6 @@
     <link href="{{ WEB_CSS }}/geuc/style.css" rel="stylesheet" type="text/css"/>
     <link href="{{ WEB_CSS }}/geuc/form.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="{{ PLUGINS }}/laravel-layui-admin/lib/layui/css/layui.css">
-    <link rel="stylesheet" href="{{ PLUGINS }}/lightbox/css/lightbox.css" type="text/css" media="screen" />
     @section('style')
         {{-- 自定义css --}}
     @show
@@ -48,11 +47,6 @@
         @include('web.common.footer')
     </div>
 </div>
-<script src="{{ PLUGINS }}/laravel-layui-admin/lib/layui/layui.js"></script>
-<script src="{{ WEB_JS }}/main.js"></script>
-<script src="{{ PLUGINS }}/lightbox/js/prototype.js" type="text/javascript"></script>
-<script src="{{ PLUGINS }}/lightbox/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
-<script src="{{ PLUGINS }}/lightbox/js/lightbox.js" type="text/javascript"></script>
 @section('script')
     {{-- 自定义js --}}
 @show

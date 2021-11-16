@@ -87,6 +87,8 @@
 {{--自定義js--}}
 @section('script')
     @parent
+    <script src="{{ PLUGINS }}/laravel-layui-admin/lib/layui/layui.js"></script>
+    <script src="{{ WEB_JS }}/main.js"></script>
     <script>
         var verify = { //自定義表單驗證規則
             confirm_pass:function(value){

@@ -32,6 +32,7 @@ Route::match(['GET', 'POST'], 'contact', 'ctl_contact@index')->name('web.contact
 Route::match(['GET', 'POST'], 'news', 'ctl_news@index')->name('web.news.index');
 Route::match(['GET', 'POST'], 'news/detail', 'ctl_news@detail')->name('web.news.detail');
 Route::match(['GET', 'POST'], 'products', 'ctl_products@index')->name('web.products.index');
+Route::match(['GET', 'POST'], 'search', 'ctl_products@search')->name('web.products.search');
 Route::match(['GET', 'POST'], 'products/detail', 'ctl_products@detail')->name('web.products.detail');
 Route::match(['GET', 'POST'], 'display', 'ctl_display@index')->name('web.display.index');
 Route::match(['GET', 'POST'], 'style', 'ctl_style@index')->name('web.style.index');

@@ -22,9 +22,13 @@
                                                           width="85" height="73" border="0" id="Logo"/></a></div>
             <div id="top" class="brandKohler">
                 <div class="serchBox">
-                    <input name="textfield" type="text" id="textfield" value="請輸入關鍵字"/>
-                    <a href="javascript:;"><img src="{{ WEB_CSS }}/geuc/images/btnSerach.jpg" width="31" height="16" border="0"
-                                              align="absbottom"/></a></div>
+                    <form action="{{ route('web.products.search') }}" method="GET">
+                    <input name="keyword" type="text" id="keyword" placeholder="請輸入關鍵字" value="{{ request("keyword") }}" />
+                        <button type="submit" style="border-width: 0px; cursor:pointer">
+                            <img src="{{ WEB_CSS }}/geuc/images/btnSerach.jpg"/>
+                        </button>
+                    </form>
+                </div>
             </div>
             <div id="HeaderNav">
                 @include('web.common.header')

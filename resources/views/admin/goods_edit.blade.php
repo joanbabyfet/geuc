@@ -287,6 +287,13 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label label-required-next">新品:</label>
+            <div class="layui-input-block">
+                <input type="checkbox" {!! $row['is_new'] == 1 ? 'checked="checked"':'' !!} name="is_new" lay-skin="switch" lay-filter="is_new"
+                       lay-text="是|否">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label label-required-next">熱門商品:</label>
                 <div class="layui-input-inline">

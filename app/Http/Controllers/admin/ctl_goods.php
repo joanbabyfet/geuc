@@ -42,11 +42,11 @@ class ctl_goods extends Controller
         if(mod_common::get_action() == 'export_list') //獲取調用方法名
         {
             $titles = [
-                'name'              =>'商品名稱',
-                'store_name_dis'    =>'所屬店舖',
+                'name'                  =>'商品名稱',
+                'store_name_dis'        =>'所屬店舖',
                 'goods_cat_name_dis'    =>'商品分類',
-                'status_dis'        =>'狀態',
-                'create_time_dis'   =>'添加時間',
+                'status_dis'            =>'狀態',
+                'create_time_dis'       =>'添加時間',
             ];
 
             return mod_common::export_data([
@@ -200,6 +200,7 @@ class ctl_goods extends Controller
             'color'         => $request->input('color', []),
             'is_hot'        => $request->input('is_hot', 0),
             'is_rec'        => $request->input('is_rec', 0),
+            'is_new'        => $request->input('is_new', 0),
             'sort'          => $request->input('sort', 0),
             'status'        => $request->input('status', 0),
             'start_time'    => $request->input('start_time'),

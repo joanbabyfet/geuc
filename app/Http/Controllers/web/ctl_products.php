@@ -29,6 +29,7 @@ class ctl_products extends Controller
         $page_no    = !empty($page_no) ? $page_no : 1;
         $name       = $request->input('keyword');
         $cat_id    = $request->input('cat_id');
+        $type    = $request->input('type'); //new=新品 hot=熱門 rec=推薦
         $cat_id and $childs = mod_goods_cat::get_field_value([
             'fields' => 'childs',
             'id' => $cat_id
@@ -51,6 +52,7 @@ class ctl_products extends Controller
         $rows = mod_goods::list_data([
             'name'      =>  $name,
             'cat_id'    =>  $cat_id,
+            'type'      =>  $type,
             'status'    =>  1,
             'count'     =>  1,
             'page'      =>  $page_no,

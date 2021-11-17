@@ -242,6 +242,20 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label">相關配件:</label>
+            <div class="layui-input-block">
+                <div id="accessory" class="demo-transfer" align="left"></div>
+                <button type="button" class="layui-btn" lay-demotransferactive="getData">获取右侧数据</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required-next">新品:</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="is_new" lay-skin="switch" lay-filter="is_new"
+                       lay-text="是|否">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label label-required-next">熱門商品:</label>
                 <div class="layui-input-inline">
@@ -285,11 +299,13 @@
     var verify = { //自定義表單驗證規則
     };
 
-    layui.use(['form', 'layedit', 'laydate', 'treeSelect'], function(){
+    layui.use(['form', 'layedit', 'laydate', 'treeSelect', 'transfer','util'], function(){
         var form = layui.form;
         var $ = layui.$;
         var laydate = layui.laydate;
-        var treeSelect= layui.treeSelect;
+        var treeSelect = layui.treeSelect;
+        var transfer = layui.transfer;
+        var util = layui.util;
 
         get_options($('#store_id').val(), $('#cat_id').val(), '#cat_id');
         //在layui中使用jquery觸發select的change事件無效,改用此監聽
@@ -350,6 +366,13 @@
         form.verify({
         });
         form.on('submit(save)', function(data){
+            var getData = transfer.getData('accessory'); //唯一标识
+            var ids = new Array();
+            for(var i=0;i<getData.length;i++){
+                ids.push(getData[i].value);
+            }
+            data.field["accessory"] = ids; //送字段,不需在页面上再定义hidden
+
             $.post($('#layer-form').attr("action"), data.field, function(res) {
                 if (res.code === 0) {
                     layui.layer.close(layer.index);//关闭弹出层
@@ -360,6 +383,48 @@
                 }
             });
             return false; //阻止表單跳转
+        });
+
+        //获取数据
+        var data ='{!! $accessories !!}';//后台json字符串
+        data = JSON.parse(data); //数据格式解析
+        var values = new Array();
+        var data_selected = '[]'; //后台json串
+        data_selected = JSON.parse(data_selected);
+        for(var i=0;i<data_selected.length;i++){
+            values.push(data_selected[i].id);
+        }
+
+        transfer.render({
+            elem: '#accessory',
+            title: ['未选数据', '已选数据'], //自定义标题
+            width: 200,  //定义宽度
+            height: 300,  //定义高度
+            parseData: function(res){//数据参数来源data转换处理
+                return {
+                    "value": res.id, //data属性
+                    "title": res.name, //data属性
+                    //"disabled": res.disabled, // false  //是否禁用
+                    //"checked": res.checked, // false //是否选中
+                }
+            },
+            data: data, //数据参数来源
+            showSearch: false, //显示搜索框
+            id: "accessory", //唯一标识
+            value: values, //用于回显或默认选中
+        });
+
+        //util监听事件
+        util.event('lay-demotransferactive',{
+            getData:function(){//获取右侧数据
+                var getData = transfer.getData('accessory'); //唯一标识
+                layer.alert(JSON.stringify(getData)); //序列化成 JSON 字符串
+            },
+            reload:function(){//重新加载
+                transfer.reload('accessory',{
+                    value: values
+                });
+            }
         });
     });
 </script>

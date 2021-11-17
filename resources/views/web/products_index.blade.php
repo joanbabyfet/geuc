@@ -15,10 +15,21 @@
         <div id="adBanner">
             <img src="{{ WEB_IMG }}/visual/products.jpg" width="767" height="203" /></div>
         <div id="pagePath">
-            <a href="{{ route('web.index.index') }}">首頁</a><span class="side">&nbsp;</span>產品資訊</div>
+            <a href="{{ route('web.index.index') }}">首頁</a><span class="side">&nbsp;</span>
+            @if(Request::is('search'))
+                搜尋
+            @else
+                產品資訊
+            @endif
+        </div>
         <div id="mainContentsFill">
             <h1>
-                產品資訊</h1>
+                @if(Request::is('search'))
+                    產品資訊：{{ request("keyword") }}
+                @else
+                    產品資訊
+                @endif
+            </h1>
         </div>
         <div class="blockMain">
             <div class="mainProducts">
@@ -34,8 +45,12 @@
                                          class="products" />
                                 @endif
                                 <div class="productsNameBox">
-                                    <a href="{{ route('web.products.detail').'?id='.$v['id'] }}">{{ str_limit($v['name'], 60) }}</a></div>
-                                <a href="{{ route('web.products.detail').'?id='.$v['id'] }}" class="no">{{ $v['sn'] }}</a></li>
+                                    <a href="{{ route('web.products.detail').'?id='.$v['id'] }}">{{ str_limit($v['name'], 60) }}</a>
+                                </div>
+                                <a href="{{ route('web.products.detail').'?id='.$v['id'] }}" class="no">
+                                    <img src="{{ WEB_CSS }}/geuc/images/iconProductMore.gif" alt="more" width="64" height="8" border="0" />
+                                </a>
+                            </li>
                         @endforeach
                     </ul>
                 @else
@@ -52,6 +67,8 @@
 {{--自定義js--}}
 @section('script')
     @parent
+    <script src="{{ PLUGINS }}/laravel-layui-admin/lib/layui/layui.js"></script>
+    <script src="{{ WEB_JS }}/main.js"></script>
     <script>
         layui.use('laypage', function () {
             //分頁器

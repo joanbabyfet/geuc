@@ -389,12 +389,13 @@ class mod_goods_cat extends mod_model
             'store_id'          => '',
         ], $data);
 
+        $cond = [];
+        !empty($data_filter['store_id']) and $cond['store_id'] = $data_filter['store_id'];
+        $cond['status'] = mod_goods_cat::ENABLE;
+        $cond['order_by'] = ['create_time', 'asc'];
+
         //獲取商品分類樹
-        $goods_cat_tree = self::get_tree([
-            'store_id'  => $data_filter['store_id'],
-            'status'    => mod_goods_cat::ENABLE,
-            'order_by'  => ['create_time', 'asc']
-        ]);
+        $goods_cat_tree = self::get_tree($cond);
         return outToHtml($goods_cat_tree, route('web.products.index')."?cat_id=");
     }
 }

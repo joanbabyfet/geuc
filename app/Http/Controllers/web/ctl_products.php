@@ -27,8 +27,9 @@ class ctl_products extends Controller
         $page_size  = $request->input('limit', 10);
         $page_no    = $request->input('page', 1);
         $page_no    = !empty($page_no) ? $page_no : 1;
-        $name       = $request->input('name');
+        $name       = $request->input('keyword');
         $cat_id    = $request->input('cat_id');
+        $type    = $request->input('type'); //new=新品 hot=熱門 rec=推薦
         $cat_id and $childs = mod_goods_cat::get_field_value([
             'fields' => 'childs',
             'id' => $cat_id
@@ -51,6 +52,7 @@ class ctl_products extends Controller
         $rows = mod_goods::list_data([
             'name'      =>  $name,
             'cat_id'    =>  $cat_id,
+            'type'      =>  $type,
             'status'    =>  1,
             'count'     =>  1,
             'page'      =>  $page_no,
@@ -66,7 +68,7 @@ class ctl_products extends Controller
 
         return view('web.products_index', [
             'list'  =>  $rows['data'],
-            'cats'  =>  mod_goods_cat::make_menu(['store_id' => '']),
+            'cats'  =>  mod_goods_cat::make_menu([]),
             'pages' =>  $pages,
         ]);
     }
@@ -90,7 +92,7 @@ class ctl_products extends Controller
         if(empty($cats))
         {
             //獲取商品分類樹
-            $cats = mod_goods_cat::make_menu(['store_id' => '']);
+            $cats = mod_goods_cat::make_menu([]);
             self::$is_use_cache and mod_redis::set(self::$cache_key, $cats); //設置緩存
         }
         //获取颜色
@@ -98,10 +100,23 @@ class ctl_products extends Controller
             'status'  => mod_goods_color::ENABLE,
             'order_by'  => ['create_time', 'asc']
         ]);
-        return view('web.products_detail', [
-            'product'   =>  $row,
-            'cats'      =>  $cats,
-            'colors'    =>  $colors,
+        //获取己选中相关配件
+        $accessories = mod_goods::get_accessories([
+            'id'        => empty($row['accessory']) ? [-1] : $row['accessory'],
+            'status'    => mod_goods::ENABLE,
+            'order_by'  => ['create_time', 'asc'],
         ]);
+        return view('web.products_detail', [
+            'product'       =>  $row,
+            'cats'          =>  $cats,
+            'colors'        =>  $colors,
+            'accessories'   =>  $accessories,
+        ]);
+    }
+
+    //搜寻
+    public function search(Request $request)
+    {
+        return $this->index($request);
     }
 }

@@ -49,13 +49,22 @@ class mod_goods extends mod_model
         $cat_id       = !empty($conds['cat_id']) ? $conds['cat_id']:'';
         //名稱
         $name       = !empty($conds['name']) ? $conds['name']:'';
+        //類型 new=新品 hot=熱門 rec=推薦
+        $type       = !empty($conds['type']) ? $conds['type']:'';
         $status     = $conds['status'] ?? null;
+        //id
+        $id       = !empty($conds['id']) ? $conds['id']:'';
+        //排除当前
+        $exclude     = $conds['exclude'] ?? null;
 
         $where = [];
         $where[] = ['delete_time', '=', 0];
         $name and $where[] = ['name', 'like', "%{$name}%"];
         $cat_id and $where[] = ['cat_id', 'in', is_array($cat_id) ? $cat_id : explode(',', $cat_id)];
         is_numeric($status) and $where[] = ['status', '=', $status];
+        in_array($type, ['new', 'hot', 'rec']) and $where[] = ["is_{$type}", '=', 1];
+        $id and $where[] = ['id', 'in', is_array($id) ? $id : explode(',', $id)];
+        $exclude and $where[] = ['id', 'not in', is_array($exclude) ? $exclude : explode(',', $exclude)];
 
         $order_by = !empty($order_by) ? $order_by : ['create_time', 'desc'];
         $group_by = !empty($group_by) ? $group_by : [];
@@ -227,9 +236,11 @@ class mod_goods extends mod_model
             'sold_num'      => '',
             'limit_buy'     => '',
             'promotion_id'  => '',
-            'color'  => '',
+            'color'         => '',
+            'accessory'     => '',
             'is_hot'        => 'required',
             'is_rec'        => 'required',
+            'is_new'        => 'required',
             'sort'          => '',
             'status'        => 'required',
             'start_time'    => '',
@@ -260,6 +271,8 @@ class mod_goods extends mod_model
             $data_filter['is_hot'] = ($data_filter['is_hot'] === 'on') ? 1:0;
             //推荐
             $data_filter['is_rec'] = ($data_filter['is_rec'] === 'on') ? 1:0;
+            //新品
+            $data_filter['is_new'] = ($data_filter['is_new'] === 'on') ? 1:0;
             //上架时间
             $data_filter['start_time'] = empty($data_filter['start_time']) ? 0 :
                 mod_common::date_convert_timestamp("{$data_filter['start_time']}", mod_common::get_admin_timezone());
@@ -273,6 +286,8 @@ class mod_goods extends mod_model
             $img_en = empty($data_filter['img_en']) ? []: array_filter($data_filter['img_en']); //干掉空值
             //颜色
             $data_filter['color'] = empty($data_filter['color']) ? '':implode(',', $data_filter['color']);
+            //配件
+            $data_filter['accessory'] = empty($data_filter['accessory']) ? '':implode(',', $data_filter['accessory']);
 
             unset($data_filter['do'], $data_filter['id'], $data_filter['create_user'], $data_filter['update_user']);
 
@@ -418,5 +433,11 @@ class mod_goods extends mod_model
         }
 
         return $status;
+    }
+
+    //获取配件
+    protected function get_accessories(array $conds)
+    {
+        return $this->list_data($conds);
     }
 }

@@ -11,6 +11,7 @@ use App\models\mod_goods_cat;
 use App\models\mod_goods_color;
 use App\models\mod_store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ctl_goods extends Controller
 {
@@ -42,11 +43,11 @@ class ctl_goods extends Controller
         if(mod_common::get_action() == 'export_list') //獲取調用方法名
         {
             $titles = [
-                'name'              =>'商品名稱',
-                'store_name_dis'    =>'所屬店舖',
+                'name'                  =>'商品名稱',
+                'store_name_dis'        =>'所屬店舖',
                 'goods_cat_name_dis'    =>'商品分類',
-                'status_dis'        =>'狀態',
-                'create_time_dis'   =>'添加時間',
+                'status_dis'            =>'狀態',
+                'create_time_dis'       =>'添加時間',
             ];
 
             return mod_common::export_data([
@@ -108,6 +109,11 @@ class ctl_goods extends Controller
 //                '[]' : mod_common::array_to_str($goods_cat_options);
             //颜色
             $colors = mod_goods_color::list_data(['order_by'  => ['create_time', 'asc']]);
+            //获取相关配件
+            $accessories = mod_goods::get_accessories([
+                'status'    => mod_goods::ENABLE,
+                'order_by'  => ['create_time', 'asc'],
+            ]);
 
             return view('admin.goods_add', [
                 'store_options' => $store_options,
@@ -115,6 +121,7 @@ class ctl_goods extends Controller
                 'currency_options' => $currency_options,
                 'today'                 => $today,
                 'colors'                => $colors,
+                'accessories'           => empty($accessories) ? '[]' : mod_common::array_to_str($accessories),
             ]);
         }
     }
@@ -155,6 +162,18 @@ class ctl_goods extends Controller
             $today    = mod_common::format_date(time(), $timezone, 'Y/m/d');
             //颜色
             $colors = mod_goods_color::list_data(['order_by'  => ['create_time', 'asc']]);
+            //获取相关配件
+            $accessories = mod_goods::get_accessories([
+                'exclude'   => $row['id'], //排除自已
+                'status'    => mod_goods::ENABLE,
+                'order_by'  => ['create_time', 'asc'],
+            ]);
+            //获取己选中相关配件
+            $accessories_selected = mod_goods::get_accessories([
+                'id'        => empty($row['accessory']) ? [-1] : $row['accessory'],
+                'status'    => mod_goods::ENABLE,
+                'order_by'  => ['create_time', 'asc'],
+            ]);
 
             return view('admin.goods_edit', [
                 'row'   =>  $row,
@@ -163,6 +182,8 @@ class ctl_goods extends Controller
                 'currency_options' => $currency_options,
                 'today'                 => $today,
                 'colors'                => $colors,
+                'accessories'           => empty($accessories) ? '[]' : mod_common::array_to_str($accessories),
+                'accessories_selected'  => empty($accessories_selected) ? '[]' : mod_common::array_to_str($accessories_selected),
             ]);
         }
     }
@@ -198,8 +219,10 @@ class ctl_goods extends Controller
             'limit_buy'     => $request->input('limit_buy'),
             'promotion_id'  => $request->input('promotion_id'),
             'color'         => $request->input('color', []),
+            'accessory'     => $request->input('accessory', []),
             'is_hot'        => $request->input('is_hot', 0),
             'is_rec'        => $request->input('is_rec', 0),
+            'is_new'        => $request->input('is_new', 0),
             'sort'          => $request->input('sort', 0),
             'status'        => $request->input('status', 0),
             'start_time'    => $request->input('start_time'),

@@ -203,7 +203,7 @@ td {font:Verdana, Arial, Helvetica, sans-serif; font-size:12px;}
 #idxSidebar #innerIndSidebar .sidebarHeader {height:26px; font-size:16px; font-weight:bold; color:#000000; background: url(images/SitebarHdBg.jpg) no-repeat; padding:8px 0px 0px 20px; margin-bottom:6px;}
 #idxSidebar #innerIndSidebar .sidebarContents { margin:6px 0px 10px 0px; padding-left:10px; padding-top:10px;}
 
-#idxMain { color:#000; font-size:12px; font-family:Arial, Helvetica, sans-serif; line-height:1.6em; background:url(images/mainTRSide.jpg) no-repeat top right; /* Stops footer at content */}
+#idxMain { color:#000; font-size:12px; font-family:Arial, Helvetica, sans-serif; line-height:1.6em; /* Stops footer at content */}
 #innerIndMain {text-align:left; padding:11px 10px 20px 0;}
 #idxMainSide { clear:both;}
 
@@ -529,7 +529,7 @@ td {font:Verdana, Arial, Helvetica, sans-serif; font-size:12px;}
 #footerIdx #innerFooter .lng a:hover {color:#7D201B;text-decoration:underline;}
 
 /*Footer*/
-#footer { height:82px; text-align:center; clear:both; color:#666666; background:url(images/footerBg.gif) repeat-x;}
+#footer { height:82px; text-align:center; clear:both; color:#666666;}
 #footer #innerFooter { font-family:Arial, Helvetica, sans-serif; font-size:11px; padding:0 10px 0; }
 #footer #innerFooter .copyright { height:18px; padding-top:6px; text-align:center; padding-right:20px; font-family:"新細明體";}
 

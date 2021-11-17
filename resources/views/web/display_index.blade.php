@@ -5,6 +5,7 @@
 {{--自定義css--}}
 @section('style')
     @parent
+    <link rel="stylesheet" href="{{ PLUGINS }}/lightbox/css/lightbox.css" type="text/css" media="screen" />
     <style>
     </style>
 @endsection
@@ -49,6 +50,9 @@
 {{--自定義js--}}
 @section('script')
     @parent
+    <script src="{{ PLUGINS }}/lightbox/js/prototype.js" type="text/javascript"></script>
+    <script src="{{ PLUGINS }}/lightbox/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
+    <script src="{{ PLUGINS }}/lightbox/js/lightbox.js" type="text/javascript"></script>
     <script>
     </script>
 @endsection

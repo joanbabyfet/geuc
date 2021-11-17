@@ -1,5 +1,5 @@
 ## About
-基于CMS搭建的禹臣实业产品系统，后台使用layui前端框架实现，结合mysql与MongoDB数据库  
+基于CMS搭建的禹臣实业eProduct产品系统，后台使用layui前端框架实现，提供店铺管理、商品管理、商品分类等模块  
 技术要点：laravel 框架，无限级商品分类，lightbox 相册应用，redis，mongodb 存储日志
 
 ## Feature
@@ -12,7 +12,7 @@
 
 ## Requires
 PHP 7.2 or Higher  
-Redis
+Redis  
 MongoDB 3.2 or Higher
 
 ## Install
@@ -43,6 +43,11 @@ v1.0.0 - 2021-11-15
 * 增加配置功能
 * 增加redis键值管理、redis服务器信息功能
 * 接口增加参数签名与jwt认证机制
+
+v1.0.1 - 2021-11-17
+* 前站增加商品筛选功能
+* 增加相关配件功能、使用穿梭框组件
+* 增加新品选项功能
 
 ## Maintainers
 Alan

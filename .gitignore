@@ -1,5 +1,5 @@
 /node_modules
-/public/storage/*
+/public/storage
 /storage/framework/cache/*
 /storage/framework/laravel-excel/*
 /storage/framework/sessions/*
@@ -16,3 +16,5 @@
 *.ipr
 *.iws
 .DS_Store
+Homestead.json
+Homestead.yaml

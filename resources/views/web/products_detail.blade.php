@@ -50,10 +50,12 @@
                 </div>
                 <h2>相關配件</h2>
                 <table width="100%" border="0" cellpadding="2" cellspacing="0">
-{{--                    <tr>--}}
-{{--                        <td width="120">K-14346-PD</td>--}}
-{{--                        <td>IV Georges Brass 喬治四世衛生紙架</td>--}}
-{{--                    </tr>--}}
+                    @foreach($accessories as $accessory)
+                        <tr>
+                            <td width="120">{{ $accessory['sn'] ?: '' }}</td>
+                            <td>{{ $accessory['name'] }}</td>
+                        </tr>
+                    @endforeach
                 </table>
 {{--                <h2>相關文件</h2>--}}
 {{--                <div class="files">--}}

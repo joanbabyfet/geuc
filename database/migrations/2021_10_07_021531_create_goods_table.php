@@ -39,7 +39,7 @@ class CreateGoodsTable extends Migration
             $table->integer('limit_buy')->default(0)->nullable()->comment("每人限購數量 0=不限");
             $table->integer('promotion_id')->default(0)->nullable()->comment("相關促銷id");
             $table->string('color',50)->default('')->nullable()->comment('顏色');
-            $table->string('accessory',255)->default('')->nullable()->comment('配件');
+            $table->string('accessory',1000)->default('')->nullable()->comment('配件');
             $table->tinyInteger("is_hot")->default(0)->nullable()->comment('是否热门商品：0=否 1=是');
             $table->tinyInteger("is_rec")->default(0)->nullable()->comment('是否推荐商品：0=否 1=是');
             $table->tinyInteger("is_new")->default(0)->nullable()->comment('是否新品：0=否 1=是');

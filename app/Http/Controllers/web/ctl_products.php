@@ -100,10 +100,17 @@ class ctl_products extends Controller
             'status'  => mod_goods_color::ENABLE,
             'order_by'  => ['create_time', 'asc']
         ]);
+        //获取己选中相关配件
+        $accessories = mod_goods::get_accessories([
+            'id'        => empty($row['accessory']) ? [-1] : $row['accessory'],
+            'status'    => mod_goods::ENABLE,
+            'order_by'  => ['create_time', 'asc'],
+        ]);
         return view('web.products_detail', [
-            'product'   =>  $row,
-            'cats'      =>  $cats,
-            'colors'    =>  $colors,
+            'product'       =>  $row,
+            'cats'          =>  $cats,
+            'colors'        =>  $colors,
+            'accessories'   =>  $accessories,
         ]);
     }
 
